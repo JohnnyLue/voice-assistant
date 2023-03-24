@@ -1,7 +1,7 @@
 model = gpt-3.5-turbo
 max_tokens = 2048
 temperature = 0.8 #the certainity higher is more creative.0~2 
-Authorization = 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 #api key
+Authorization = {YOUR API KEY} #api key
 top_p = 1 #only use top n of the possible result ex:0.1==>top 10% posible answer.0~1
 repuest_timeout = 30 #max wait time
 main_language = zh-tw #taiwan
