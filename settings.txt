@@ -4,4 +4,4 @@ temperature = 0.8 #the certainity higher is more creative.0~2
 Authorization = {YOUR API KEY} #api key
 top_p = 1 #only use top n of the possible result ex:0.1==>top 10% posible answer.0~1
 repuest_timeout = 30 #max wait time
-main_language = zh-tw #taiwan
+main_language = en-US #taiwan:zh-tw

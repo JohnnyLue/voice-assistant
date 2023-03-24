@@ -21,13 +21,13 @@ request_timeout = 15
 main_language = ""
 
 def input_helper(range):
-    choose_code = input('\nenter the code:')
+    choose_code = input('\nenter the code(type 0 to create new one):')
 
     if(not choose_code.isdecimal()):
         print('Wrong input.(1~'+str(range)+')')
         return input_helper(range)
     else:
-        if(int(choose_code)>range or int(choose_code)<=0):
+        if(int(choose_code)>range or int(choose_code)<0):
             print('Wrong input.(1~'+str(range)+')')
             return input_helper(range)
         else:
@@ -44,7 +44,13 @@ def choose_identity():
         print(counter,': ',file)
         counter=counter+1
 
+    if (counter == 1):
+        return -1
+
     choose_code = input_helper(counter-1)
+
+    if(choose_code == 0):
+        return 0
 
     return 'AI_Identity/' + all_file_name[choose_code-1]
     
@@ -113,40 +119,48 @@ except:
 
 print('##########################################################')
 
-#try:
-#    f= open('AI_identity.txt','x')
-#    ans = input("No AI_identity now, want to add?")
-#    if(ans == 'y' or ans == 'Y'):
-#        text = input('\nStart(end with enter):\n')
-#        f.write(text)
-#    f.close
-#except:
-#    f = open('AI_identity.txt')
-#    AI_identity = f.read()
-#    f.close
-#    print("Curent AI_identity:\n" + AI_identity)
-#
-#    ans = input('\n\nWant to rewrite AI_identity?')
-#    if(ans == 'y' or ans == 'Y'):
-#        text = input('\nStart(end with enter):\n')
-#
-#        f= open('AI_identity.txt','x')
-#        f.write(text)
-#        f.close
-#    
-#print('#################################')
-
 load_setting()
 
 print('##########################################################')
 
 identity_path = choose_identity()
 
+if(identity_path == -1 or identity_path == 0):
+    if(identity_path==-1):
+        print("No Identity file found.Please create one.")
+    
+    ai_describe = AI_NAME +' is ' + input(AI_NAME + ' is ')
+    user_describe = USER_NAME + ' is ' + input(USER_NAME + ' is ')
+
+    new_path = 'AI_Identity/Identity'
+    id = 0
+    while(1):
+        done = False
+        try:
+            with open(new_path+str(id)+'.txt','xt',encoding='UTF-8') as f:
+                f.write(ai_describe)
+                f.write('\n')
+                f.write(user_describe)
+                done = True
+        except:
+            id+=1
+
+        if(done):
+            break
+        
+    identity_path = new_path+str(id)+'.txt'
+
+else:
+    pass
+
+
 print('##########################################################')
 
-f = open(identity_path,encoding='UTF-8')
-ai_identity = f.read()
-f.close
+ai_identity = ''
+if(identity_path != -1):
+    f = open(identity_path,encoding='UTF-8')
+    ai_identity = f.read()
+    f.close
 
 terminate = False
 
@@ -185,7 +199,7 @@ while(not terminate):
         continue
 
     #terminate condition
-    if(text == 'stop' or text == 'Stop' or text == 'stop.' or text == 'Stop.' or text == '結束'):
+    if(text == 'stop' or text == 'Stop' or text == 'terminate' or text == 'Terminate' or text == '結束'):
         terminate = True
         continue
 
@@ -231,29 +245,4 @@ while(not terminate):
         playsound('output.mp3')
     except:
         print('Error occurred.\n')
-
-
-
-    #url = "https://voicerss-text-to-speech.p.rapidapi.com/"
-#
-    #querystring = {
-    #        "key":"12b25eb9c5e84e8cb17854a084be3738",#https://www.voicerss.org/personel/
-    #        "src":output_text,
-    #        "hl":"zh-tw",
-    #        "r":"3",#speed
-    #        "c":"mp3",
-    #        "f":"8khz_8bit_mono"
-    #    }
-#
-    #headers = {
-    #    "X-RapidAPI-Key": "7e7ee0b63fmsh9f3c624e79ec8b9p13e4fajsn23d13076e847",
-    #    "X-RapidAPI-Host": "voicerss-text-to-speech.p.rapidapi.com"
-    #}
-#
-    #response = requests.request("GET", url, headers=headers, params=querystring)
-#
-    #with open('result.mp3','wb') as f:
-    #    f.write(response.content)
-#
-    ##say the result
   
